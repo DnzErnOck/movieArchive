@@ -14,5 +14,6 @@ public interface MovieService {
     void add(AddMovieRequest addMovieRequest);
     void update(UpdateMovieRequest updateMovieRequest,int id);
     void delete(int id);
+    List<GetListMovieResponse> findByPrice(int price);
 
 }

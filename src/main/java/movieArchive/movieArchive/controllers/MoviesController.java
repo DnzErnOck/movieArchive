@@ -40,4 +40,9 @@ public class MoviesController {
     public void delete(@PathVariable int id){
         movieService.delete(id);
     }
+
+    @GetMapping("getByPrice")
+    public List<GetListMovieResponse> findByPrice(@RequestParam int price){
+        return movieService.findByPrice(price);
+    }
 }

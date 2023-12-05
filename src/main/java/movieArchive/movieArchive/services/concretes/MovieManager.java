@@ -6,6 +6,7 @@ import movieArchive.movieArchive.repositories.MovieRepository;
 import movieArchive.movieArchive.services.abstracts.MovieService;
 import movieArchive.movieArchive.services.dtos.requests.movie.AddMovieRequest;
 import movieArchive.movieArchive.services.dtos.requests.movie.UpdateMovieRequest;
+import movieArchive.movieArchive.services.dtos.responses.director.GetListDirectorResponse;
 import movieArchive.movieArchive.services.dtos.responses.movie.GetListMovieResponse;
 import movieArchive.movieArchive.services.dtos.responses.movie.GetMovieResponse;
 import org.springframework.stereotype.Service;
@@ -62,5 +63,21 @@ public class MovieManager implements MovieService {
     @Override
     public void delete(int id) {
         movieRepository.deleteById(id);
+    }
+
+    @Override
+    public List<GetListMovieResponse> findByPrice(int price) {
+        List<Movie> movieList=movieRepository.findByPriceGreaterThanEqual(price);
+        List<GetListMovieResponse> getListMovieResponseList=new ArrayList<>();
+        for (Movie movie:movieList){
+            GetListMovieResponse response=new GetListMovieResponse();
+            GetListDirectorResponse getListDirectorResponse=new GetListDirectorResponse(movie.getDirector().getFirstName(),movie.getDirector().getLastName());
+            response.setName(movie.getName());
+            response.setPrice(movie.getPrice());
+            response.setDirector(getListDirectorResponse);
+            getListMovieResponseList.add(response);
+        }
+        return getListMovieResponseList;
+
     }
 }
